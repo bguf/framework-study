@@ -42,4 +42,9 @@ public class MyTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void test3() {
+        System.out.println(System.getProperty("user.dir"));
+    }
 }
