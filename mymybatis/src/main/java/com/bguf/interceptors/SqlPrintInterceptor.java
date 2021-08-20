@@ -1,16 +1,19 @@
 package com.bguf.interceptors;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.plugin.Intercepts;
-import org.apache.ibatis.plugin.Invocation;
-import org.apache.ibatis.plugin.Signature;
+import org.apache.ibatis.mapping.ParameterMapping;
+import org.apache.ibatis.plugin.*;
+import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.ibatis.type.TypeHandlerRegistry;
+import org.omg.CORBA.Bounds;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
@@ -35,17 +38,42 @@ public class SqlPrintInterceptor implements Interceptor {
         }
         long start = System.currentTimeMillis();
         Object result = invocation.proceed();
+        String statementId = mappedStatement.getId();
+        BoundSql boundSql = mappedStatement.getBoundSql(parameterObject);
+        Configuration configuration = mappedStatement.getConfiguration();
+        String sql = getSql(boundSql, parameterObject, configuration);
 
-        return null;
+        long end = System.currentTimeMillis();
+        long timing = end - start;
+        if (log.isInfoEnabled()) {
+            log.info("执行耗时: " + timing + "ms" + "- id: " + statementId + " - Sql: ");
+            log.info(" " + sql);
+        }
+        return result;
     }
 
     @Override
     public Object plugin(Object target) {
-        return null;
+        if (target instanceof Executor) {
+            return Plugin.wrap(target, this);
+        }
+        return target;
     }
 
     @Override
     public void setProperties(Properties properties) {
 
+    }
+
+    private String getSql(BoundSql boundSql, Object parameterObject, Configuration configuration) {
+        String sql = boundSql.getSql().replaceAll("[\\s]+", " ");
+        List<ParameterMapping> parameterMappingList = boundSql.getParameterMappings();
+        TypeHandlerRegistry typeHandlerRegistry = configuration.getTypeHandlerRegistry();
+        if (parameterMappingList != null) {
+            for (int i = 0; i < parameterMappingList.size(); i++) {
+
+            }
+        }
+        return null;
     }
 }

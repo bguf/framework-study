@@ -1,10 +1,8 @@
 package com.bguf.config;
 
 import com.bguf.bean.Person;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
+import com.bguf.service.BookService;
+import org.springframework.context.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +11,17 @@ import org.springframework.stereotype.Service;
  * @date 2021/8/17 5:43 PM
  */
 @Configuration
-@ComponentScan(value = "com.bguf", includeFilters = {
-        @ComponentScan.Filter(type = FilterType.ANNOTATION, classes ={Controller.class})
-})
+@ComponentScans(
+        value = {@ComponentScan(
+                value = "com.bguf",
+                includeFilters = {
+                // @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = {Controller.class}),
+                // @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {BookService.class}),
+                @ComponentScan.Filter(type = FilterType.CUSTOM, classes = {MyTypeFilter.class})
+                        },
+                useDefaultFilters = false)
+        }
+)
 public class MainConfig {
     @Bean(value = "person")
     public Person person() {
