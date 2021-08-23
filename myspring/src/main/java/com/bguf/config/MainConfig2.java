@@ -42,7 +42,7 @@ public class MainConfig2 {
     @Bean(value = "person")
     public Person person() {
         System.out.println("-----给容器添加Person");
-        return new Person("zs", 33);
+         return new Person();
     }
 
     /**
@@ -54,13 +54,13 @@ public class MainConfig2 {
     @Conditional(value = {WindowsCondition.class})
     @Bean(value = "aaa")
     public Person person01() {
-        return new Person("aaa", 111);
+        return new Person();
     }
 
     @Conditional(value = {MacCondition.class})
     @Bean(value = "bbb")
     public Person person02() {
-        return new Person("bbb", 112);
+        return new Person();
     }
 
     /**

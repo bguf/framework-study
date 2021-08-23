@@ -25,6 +25,6 @@ import org.springframework.stereotype.Service;
 public class MainConfig {
     @Bean(value = "person")
     public Person person() {
-        return new Person("lisi", 20);
+        return new Person();
     }
 }
