@@ -1,3 +1,5 @@
+import com.bguf.bean.Boss;
+import com.bguf.bean.Car;
 import com.bguf.config.MainConfigOfAutowired;
 import com.bguf.dao.BookDao;
 import com.bguf.service.BookService;
@@ -16,9 +18,14 @@ public class MainTest_Autowired {
 
     @Test
     public void test1() {
-        BookService bean = context.getBean(BookServiceImpl.class);
-        bean.print();
+//        BookService bean = context.getBean(BookServiceImpl.class);
+//        bean.print();
 //        BookDao bean1 = context.getBean(BookDao.class);
 //        log.info("{}", bean1);
+//        Boss boss = context.getBean(Boss.class);
+//        log.info("{}", boss);
+//        Car car = context.getBean(Car.class);
+//        log.info("{}", car);
+        log.info("{}", context);
     }
 }
